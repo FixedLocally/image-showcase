@@ -1,11 +1,12 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:crop_your_image/crop_your_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:img_showcase/expandable_fab.dart';
 import 'package:path_provider/path_provider.dart';
+
+import 'crop.dart';
 
 void main() {
   runApp(const MyApp());
@@ -128,44 +129,3 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class CropRoute extends StatefulWidget {
-  final Uint8List bytes;
-  final void Function(Uint8List) onCropped;
-
-  const CropRoute({
-    Key? key,
-    required this.bytes,
-    required this.onCropped,
-  }) : super(key: key);
-
-  @override
-  State<CropRoute> createState() => _CropRouteState();
-}
-
-class _CropRouteState extends State<CropRoute> {
-  final CropController _controller = CropController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Crop Image"),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.check),
-            onPressed: () {
-              _controller.crop();
-            },
-          )
-        ],
-      ),
-      body: Crop(
-        controller: _controller,
-        image: widget.bytes,
-        onCropped: (img) {
-          widget.onCropped(img);
-        },
-      ),
-    );
-  }
-}
