@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:crop_your_image/crop_your_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:img_showcase/expandable_fab.dart';
 import 'package:path_provider/path_provider.dart';
 
 void main() {
@@ -71,17 +72,36 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _chooseImage,
-        tooltip: 'Choose Image',
-        child: const Icon(Icons.add),
+      floatingActionButton: ExpandableFloatingActionButton(
+        icon: const Icon(Icons.image),
+        openIcon: const Icon(Icons.clear),
+        items: const [
+          ExpandableFloatingActionButtonItem(
+            icon: Icon(Icons.collections),
+            value: 0,
+          ),
+          ExpandableFloatingActionButtonItem(
+            icon: Icon(Icons.camera),
+            value: 1,
+          ),
+        ],
+        onPressed: (i) {
+          switch (i) {
+            case 0:
+              _chooseImage(ImageSource.gallery);
+              break;
+            case 1:
+              _chooseImage(ImageSource.camera);
+              break;
+          }
+        },
       ),
     );
   }
 
-  void _chooseImage() async {
+  void _chooseImage(ImageSource source) async {
     NavigatorState nav = Navigator.of(context);
-    XFile? value = await ImagePicker().pickImage(source: ImageSource.gallery);
+    XFile? value = await ImagePicker().pickImage(source: source);
     if (value != null) {
       Uint8List bytes = await value.readAsBytes();
       nav.push(
@@ -149,4 +169,3 @@ class _CropRouteState extends State<CropRoute> {
     );
   }
 }
-
