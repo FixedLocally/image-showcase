@@ -30,6 +30,21 @@ class _CropRouteState extends State<CropRoute> {
             icon: const Icon(Icons.check),
             onPressed: () {
               _controller.crop();
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (ctx) {
+                  return AlertDialog(
+                    content: Row(
+                      children: const [
+                        CircularProgressIndicator(),
+                        SizedBox(width: 10),
+                        Text("Cropping, please wait..."),
+                      ],
+                    ),
+                  );
+                },
+              );
             },
           )
         ],
@@ -38,6 +53,7 @@ class _CropRouteState extends State<CropRoute> {
         controller: _controller,
         image: widget.bytes,
         onCropped: (img) {
+          Navigator.pop(context);
           widget.onCropped(img);
         },
       ),
