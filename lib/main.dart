@@ -80,10 +80,12 @@ class _MyHomePageState extends State<MyHomePage> {
           ExpandableFloatingActionButtonItem(
             icon: Icon(Icons.collections),
             value: 0,
+            tooltip: "Choose image from Gallery",
           ),
           ExpandableFloatingActionButtonItem(
             icon: Icon(Icons.camera),
             value: 1,
+            tooltip: "Take a picture",
           ),
         ],
         onPressed: (i) {

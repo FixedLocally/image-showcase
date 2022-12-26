@@ -42,6 +42,7 @@ class _ExpandableFloatingActionButtonState<T> extends State<ExpandableFloatingAc
                       _open = false;
                     });
                   },
+                  tooltip: item.tooltip,
                   child: item.icon,
                 ),
               ),
@@ -75,11 +76,13 @@ class _ExpandableFloatingActionButtonState<T> extends State<ExpandableFloatingAc
 class ExpandableFloatingActionButtonItem<T> {
   final Widget icon;
   final Widget? label;
+  final String? tooltip;
   final T value;
 
   const ExpandableFloatingActionButtonItem({
     required this.icon,
     this.label,
+    this.tooltip,
     required this.value,
   });
 }
