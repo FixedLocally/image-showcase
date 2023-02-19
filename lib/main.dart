@@ -60,20 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            if (hasImage != null)
-              if (hasImage!)
-                Image.file(img)
-              else
-                const Text("No image found")
-            else
-              const CircularProgressIndicator()
-          ],
-        ),
-      ),
+      body: _image(),
       floatingActionButton: ExpandableFloatingActionButton(
         icon: const Icon(Icons.image),
         openIcon: const Icon(Icons.clear),
@@ -101,6 +88,23 @@ class _MyHomePageState extends State<MyHomePage> {
         },
       ),
     );
+  }
+
+  Widget _image() {
+    if (hasImage != null) {
+      if (hasImage!) {
+        // force it to fill the frame so image doesn't get cropped when zoomed
+        return Stack(
+          children: [
+            Positioned.fill(child: InteractiveViewer(child: Image.file(img))),
+          ],
+        );
+      } else {
+        return const Text("No image found");
+      }
+    } else {
+      return const CircularProgressIndicator();
+    }
   }
 
   void _chooseImage(ImageSource source) async {
